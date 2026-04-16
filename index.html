@@ -3,273 +3,314 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Momentum Labs | 4-Day Marketing Sprint</title>
+    <title>Momentum Labs</title>
     <style>
         :root {
             --bg-color: #EAE6F8;
             --card-color: #FFFFFF;
             --accent-color: #B8A9FF;
-            --secondary-accent: #FFD966;
             --border-color: #000000;
             --text-color: #000000;
             --border-width: 3px;
-            --shadow: 6px 6px 0px 0px var(--border-color);
-            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --shadow-offset: 6px;
+            --shadow: var(--shadow-offset) var(--shadow-offset) 0px 0px var(--border-color);
+            --shadow-hover: 8px 8px 0px 0px var(--border-color);
+            --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
+            line-height: 1.6;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        /* Dot Matrix Background */
-        .dot-background {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: radial-gradient(rgba(0,0,0,0.08) 2px, transparent 2px);
-            background-size: 30px 30px; z-index: -1;
+        /* Animations */
+        @keyframes slideInDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.9) rotate(0deg); opacity: 0; }
+            100% { transform: scale(1) rotate(var(--rot, 0deg)); opacity: 1; }
+        }
+
+        @keyframes menuOpen {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+        }
+
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: var(--bg-color);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            z-index: 9999;
+            transition: opacity 0.6s ease, visibility 0.6s;
+        }
+
+        .brand-logo-splash {
+            width: 180px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 8px;
+            background: #fff;
+            animation: pulse 2s infinite ease-in-out;
         }
 
         /* Navigation */
         nav {
-            position: fixed; top: 0; width: 100%; padding: 1rem 5%;
+            position: fixed;
+            top: 0; width: 100%; padding: 1rem 5%;
             display: flex; justify-content: space-between; align-items: center;
-            background: var(--bg-color); border-bottom: var(--border-width) solid var(--border-color);
-            z-index: 1000;
+            background-color: rgba(234, 230, 248, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            border-bottom: var(--border-width) solid var(--border-color);
         }
 
         .nav-brand-text {
-            font-size: 1.5rem; font-weight: 900; text-transform: uppercase;
-            text-decoration: none; color: var(--text-color);
-        }
-
-        .mobile-toggle {
-            background: var(--card-color); border: var(--border-width) solid var(--border-color);
-            padding: 0.5rem 0.8rem; font-weight: 900; cursor: pointer;
-            box-shadow: 3px 3px 0px var(--border-color); z-index: 1100;
-        }
-
-        /* Animated Mobile Menu */
-        .mobile-menu {
-            position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
-            background: var(--accent-color); border-left: var(--border-width) solid var(--border-color);
-            display: flex; flex-direction: column; justify-content: center;
-            padding: 10%; gap: 2rem; z-index: 1050;
-            transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
-        }
-
-        .mobile-menu.active { right: 0; box-shadow: -10px 0px 0px var(--border-color); }
-
-        .mobile-menu a {
-            font-size: 2.5rem; font-weight: 900; text-transform: uppercase;
-            text-decoration: none; color: white; -webkit-text-stroke: 1.5px black;
+            font-size: 1.8rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            text-decoration: none;
+            color: var(--text-color);
             transition: var(--transition);
         }
 
-        .mobile-menu a:hover { transform: translateX(20px); -webkit-text-stroke: 0px; color: black; }
+        .nav-brand-text:hover {
+            color: var(--accent-color);
+            transform: skew(-10deg);
+        }
+
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            text-decoration: none; color: var(--text-color);
+            font-weight: 700; transition: var(--transition);
+        }
+        .nav-links a:hover { color: var(--accent-color); transform: translateY(-2px); }
+
+        /* Mobile Hamburger */
+        .mobile-toggle {
+            display: none;
+            background: var(--card-color);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            font-size: 1.5rem; font-weight: 900;
+            box-shadow: 3px 3px 0px var(--border-color);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .mobile-toggle:active { transform: translate(2px, 2px); box-shadow: 0px 0px 0px; }
+
+        /* Animated Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%; left: 0; width: 100%;
+            background: var(--bg-color);
+            border-bottom: var(--border-width) solid var(--border-color);
+            padding: 2rem 5%;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: 0px 10px 0px var(--border-color);
+            transform-origin: top;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+            animation: menuOpen 0.4s forwards;
+        }
+
+        .mobile-menu a {
+            text-decoration: none; color: var(--text-color);
+            font-weight: 900; font-size: 1.8rem;
+            text-transform: uppercase;
+        }
 
         /* Hero & Layout */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
-        section { padding: 5rem 0; }
+        section { padding: 6rem 0; opacity: 0; transform: translateY(20px); transition: 0.8s ease-out; }
+        section.visible { opacity: 1; transform: translateY(0); }
 
-        .hero { padding-top: 10rem; min-height: 90vh; }
-
-        .hero-btns {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2rem;
-        }
-
-        /* Brutalist Cards */
         .card {
-            background: var(--card-color); border: var(--border-width) solid var(--border-color);
-            border-radius: 12px; padding: 2rem; box-shadow: var(--shadow);
-            transition: var(--transition); height: 100%;
+            background-color: var(--card-color);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
         }
 
-        .card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0px var(--border-color); }
+        .card:hover { transform: translate(-4px, -4px) rotate(0deg) !important; box-shadow: var(--shadow-hover); }
 
-        h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; line-height: 0.9; text-transform: uppercase; }
-        
+        .rotate-left { --rot: -1.5deg; transform: rotate(var(--rot)); }
+        .rotate-right { --rot: 1.5deg; transform: rotate(var(--rot)); }
+
+        /* Button Logic - Flex Row on Mobile */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
         .btn {
-            padding: 1rem; border: var(--border-width) solid var(--border-color);
-            text-decoration: none; font-weight: 900; text-transform: uppercase;
-            text-align: center; border-radius: 8px; box-shadow: 4px 4px 0px var(--border-color);
-            transition: var(--transition); font-size: 0.9rem;
+            flex: 1; /* Makes them equal width */
+            text-align: center;
+            padding: 1.2rem 1rem;
+            background-color: var(--card-color);
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 800;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 4px 4px 0px var(--border-color);
+            transition: var(--transition);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .btn-main { background: var(--accent-color); }
-        .btn-alt { background: var(--card-color); }
-        .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--border-color); }
+        .btn-accent { background-color: var(--accent-color); animation: pulse 3s infinite; }
+        .btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--border-color); }
 
-        /* Detailed Sections */
-        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
-        
-        .pill {
-            display: inline-block; padding: 0.2rem 1rem; background: var(--secondary-accent);
-            border: 2px solid black; border-radius: 50px; font-weight: 800; font-size: 0.8rem;
-            margin-bottom: 1rem;
-        }
-
-        .faq-item {
-            border-bottom: var(--border-width) solid var(--border-color);
-            padding: 1.5rem 0; cursor: pointer;
-        }
-
-        /* Splash */
-        #splash {
-            position: fixed; inset: 0; background: var(--bg-color); z-index: 2000;
-            display: flex; align-items: center; justify-content: center;
-        }
-
-        @media (min-width: 768px) {
-            .hero-btns { width: 500px; grid-template-columns: 1.5fr 1fr; }
-            .mobile-toggle, .mobile-menu { display: none; }
-            .nav-links { display: flex; gap: 2rem; }
-            .nav-links a { text-decoration: none; color: black; font-weight: 800; text-transform: uppercase; }
-        }
-
-        @media (max-width: 767px) {
+        /* Media Queries */
+        @media (max-width: 768px) {
             .nav-links { display: none; }
+            .mobile-toggle { display: block; }
+            .hero { padding-top: 8rem; }
+            .nav-brand-text { font-size: 1.3rem; }
+            
+            /* Smaller text for side-by-side buttons */
+            .btn { font-size: 0.75rem; padding: 1rem 0.5rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="splash">
-        <div style="text-align: center;">
-            <img src="logo.jpg" style="width: 150px; border: 3px solid black; border-radius: 10px;" alt="Logo">
-            <h2 style="margin-top: 1rem; font-weight: 900;">MOMENTUM LABS</h2>
-        </div>
+    <div id="splash-screen">
+        <img src="logo.jpg" alt="Logo" class="brand-logo-splash">
+        <h2 style="margin-top: 1.5rem; font-weight: 900;">MOMENTUM LABS</h2>
     </div>
-
-    <div class="dot-background"></div>
 
     <nav>
         <a href="#" class="nav-brand-text">Momentum Labs</a>
         <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#sprint">The Sprint</a>
-            <a href="#faq">FAQ</a>
+            <a href="#program">Program</a>
+            <a href="#outcomes">Outcomes</a>
+            <a href="#details">Details</a>
         </div>
-        <button class="mobile-toggle" id="menuBtn">MENU</button>
+        <button class="mobile-toggle" id="mobile-toggle">☰</button>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#program" class="mobile-link">Program</a>
+            <a href="#outcomes" class="mobile-link">Outcomes</a>
+            <a href="#details" class="mobile-link">Details</a>
+        </div>
     </nav>
 
-    <div class="mobile-menu" id="sideMenu">
-        <a href="#about">About</a>
-        <a href="#sprint">Sprint</a>
-        <a href="#faq">FAQ</a>
-        <a href="https://instagram.com/momentum_labbs" style="font-size: 1.5rem;">Instagram ↗</a>
-    </div>
-
     <div class="container">
-        <section class="hero">
-            <span class="pill">LIMITED SEATS: 20 CREATORS ONLY</span>
-            <h1>BUILD A BRAND <br> FROM SCRATCH <br> <span style="color: var(--accent-color); -webkit-text-stroke: 2px black;">IN 4 DAYS.</span></h1>
+        <section class="hero visible">
+            <h1 class="card rotate-left">Turn Your Ideas Into Real Campaigns in 4 Days</h1>
+            <p class="card rotate-right" style="margin-top: 1.5rem; background: var(--accent-color);">
+                A hands-on creative marketing experience for students.
+            </p>
             
-            <div class="hero-btns">
-                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeU82QL-YAsLCGWqaDOqjks-M2ooB9gRenOTtjAl5OYObMEBg/viewform" class="btn btn-main">Apply Now</a>
-                <a href="https://instagram.com/momentum_labbs" class="btn btn-alt">Instagram</a>
+            <div class="btn-group">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeU82QL-YAsLCGWqaDOqjks-M2ooB9gRenOTtjAl5OYObMEBg/viewform" target="_blank" class="btn btn-accent">Apply Now</a>
+                <a href="https://instagram.com/momentum_labbs" target="_blank" class="btn">Instagram</a>
             </div>
         </section>
 
-        <section id="about">
-            <h2 style="margin-bottom: 2rem; text-transform: uppercase;">Why Join Us?</h2>
-            <div class="grid-3">
-                <div class="card" style="transform: rotate(-1deg);">
-                    <div class="pill">PILLAR 01</div>
-                    <h3>Radical Execution</h3>
-                    <p>Stop overthinking. We use rapid prototyping to turn vague ideas into campaign assets in hours, not months.</p>
-                </div>
-                <div class="card" style="transform: rotate(1deg);">
-                    <div class="pill">PILLAR 02</div>
-                    <h3>Network Density</h3>
-                    <p>Work alongside designers, strategists, and copywriters. Your network is your net worth.</p>
-                </div>
-                <div class="card">
-                    <div class="pill">PILLAR 03</div>
-                    <h3>Real Stakes</h3>
-                    <p>This isn't a classroom. Your campaigns will be reviewed by industry veterans in the Kochi creative scene.</p>
-                </div>
+        <section id="program">
+            <h2 style="text-align: center; margin-bottom: 2rem;">The Sprint</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem;">
+                <div class="card rotate-left" style="text-align: center;"><h3>Day 1</h3><p>Ideation</p></div>
+                <div class="card rotate-right" style="text-align: center;"><h3>Day 2</h3><p>Strategy</p></div>
+                <div class="card rotate-left" style="text-align: center;"><h3>Day 3</h3><p>Production</p></div>
+                <div class="card rotate-right" style="text-align: center;"><h3>Day 4</h3><p>Launch</p></div>
             </div>
         </section>
 
-        <section id="sprint">
-            <div class="card" style="background: black; color: white;">
-                <h2 style="margin-bottom: 2rem;">THE 96-HOUR SPRINT</h2>
-                <div class="grid-3">
-                    <div style="border-left: 2px solid var(--accent-color); padding-left: 1rem;">
-                        <h4 style="color: var(--accent-color);">DAY 1</h4>
-                        <p><strong>The Spark:</strong> Research, target personas, and the "Big Idea" workshop.</p>
-                    </div>
-                    <div style="border-left: 2px solid var(--accent-color); padding-left: 1rem;">
-                        <h4 style="color: var(--accent-color);">DAY 2</h4>
-                        <p><strong>The Blueprint:</strong> Visual identity, tone of voice, and platform strategy.</p>
-                    </div>
-                    <div style="border-left: 2px solid var(--accent-color); padding-left: 1rem;">
-                        <h4 style="color: var(--accent-color);">DAY 3</h4>
-                        <p><strong>The Build:</strong> Content production, ad mockups, and video editing.</p>
-                    </div>
-                </div>
+        <section id="outcomes">
+            <div class="card rotate-right">
+                <h2 style="margin-bottom: 1rem;">Outcomes</h2>
+                <ul style="list-style: none; font-weight: 800;">
+                    <li style="margin-bottom: 0.5rem;">⚡ Real Portfolio Project</li>
+                    <li style="margin-bottom: 0.5rem;">⚡ Campaign Strategy</li>
+                    <li>⚡ Creative Networking</li>
+                </ul>
             </div>
         </section>
 
-        <section id="faq">
-            <h2 style="margin-bottom: 2rem;">Common Questions</h2>
-            <div class="card">
-                <div class="faq-item">
-                    <strong>Do I need prior marketing experience?</strong>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">No. We value curiosity and grit over a CV. We teach you the tools on the fly.</p>
+        <section id="details">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
+                <div class="card rotate-left">
+                    <h2>Details</h2>
+                    <p><strong>Dates:</strong> 21–24 April</p>
+                    <p><strong>Place:</strong> Kochi (Me Square)</p>
                 </div>
-                <div class="faq-item">
-                    <strong>What do I need to bring?</strong>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">A laptop, a smartphone, and enough caffeine to last 4 days.</p>
-                </div>
-                <div class="faq-item" style="border: none;">
-                    <strong>Is there a certification?</strong>
-                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Better. You leave with a live portfolio link and a network of peers.</p>
+                <div class="card rotate-right" style="background: var(--accent-color); text-align: center;">
+                    <h2>Fee</h2>
+                    <p style="font-size: 3.5rem; font-weight: 900;">₹1500</p>
                 </div>
             </div>
         </section>
     </div>
 
-    <footer style="padding: 3rem; text-align: center; border-top: 3px solid black; background: white;">
-        <p style="font-weight: 900;">MOMENTUM LABS | KOCHI 2026</p>
-        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 1rem;">Built by Nimbus Systems</p>
+    <footer style="padding: 3rem 5%; text-align: center; border-top: var(--border-width) solid var(--border-color); background: #fff;">
+        <p style="font-weight: 900; letter-spacing: 2px;">MOMENTUM LABS &copy; 2026</p>
     </footer>
 
     <script>
-        // Splash Screen
-        window.addEventListener('load', () => {
+        document.addEventListener('DOMContentLoaded', () => {
+            // Splash logic
+            const splash = document.getElementById('splash-screen');
             setTimeout(() => {
-                const splash = document.getElementById('splash');
-                splash.style.transition = 'opacity 0.5s ease';
                 splash.style.opacity = '0';
-                setTimeout(() => splash.style.display = 'none', 500);
-            }, 1200);
-        });
+                setTimeout(() => splash.style.visibility = 'hidden', 600);
+            }, 1800);
 
-        // Animated Menu Logic
-        const menuBtn = document.getElementById('menuBtn');
-        const sideMenu = document.getElementById('sideMenu');
-        const menuLinks = document.querySelectorAll('.mobile-menu a');
-
-        menuBtn.addEventListener('click', () => {
-            sideMenu.classList.toggle('active');
-            menuBtn.innerText = sideMenu.classList.contains('active') ? 'CLOSE' : 'MENU';
+            // Menu logic
+            const toggle = document.getElementById('mobile-toggle');
+            const menu = document.getElementById('mobile-menu');
             
-            // Subtle body lock
-            document.body.style.overflow = sideMenu.classList.contains('active') ? 'hidden' : 'auto';
-        });
-
-        // Close menu on link click
-        menuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                sideMenu.classList.remove('active');
-                menuBtn.innerText = 'MENU';
-                document.body.style.overflow = 'auto';
+            toggle.addEventListener('click', () => {
+                const isOpen = menu.classList.toggle('active');
+                toggle.innerHTML = isOpen ? '✕' : '☰';
+                toggle.style.transform = isOpen ? 'rotate(90deg)' : 'rotate(0deg)';
             });
+
+            // Scroll animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('section').forEach(section => observer.observe(section));
         });
     </script>
 </body>
