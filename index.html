@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Momentum </title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Momentum Lab</title>
+    <style>
+        /* Styles crafted by Nimbus */
+        
+        :root {
+            --bg-color: #EAE6F8;
+            --card-color: #FFFFFF;
+            --accent-color: #B8A9FF;
+            --border-color: #000000;
+            --text-color: #000000;
+            --border-width: 3px;
+            --shadow-offset: 6px;
+            --shadow: var(--shadow-offset) var(--shadow-offset) 0px 0px var(--border-color);
+            --shadow-hover: 8px 8px 0px 0px var(--border-color);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Dot Matrix Background */
+        .dot-background {
+            position: fixed;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.06) 2px, transparent 2px);
+            background-size: 30px 30px;
+            z-index: -1;
+            pointer-events: none;
+            will-change: transform;
+        }
+
+        /* Typography */
+        h1, h2, h3 {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 1rem; }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem; }
+        h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
+        p { font-size: 1.1rem; font-weight: 500; }
+
+        /* Splash Screen */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .splash-content {
+            text-align: center;
+        }
+
+        .brand-logo {
+            max-width: 120px;
+            margin-bottom: 1rem;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 4px 4px 0px 0px var(--border-color);
+        }
+
+        .brand-text {
+            font-size: 2.5rem;
+            font-weight: 900;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(234, 230, 248, 0.95);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            border-bottom: var(--border-width) solid var(--border-color);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .nav-brand img {
+            height: 40px;
+            width: 40px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+            text-shadow: 1px 1px 0px #000;
+        }
+
+        .nimbus-menu-credit {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            font-weight: 600;
+            background: #000;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* Layout & Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        section {
+            padding: 6rem 0;
+        }
+
+        /* Brutalist Cards */
+        .card {
+            background-color: var(--card-color);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .card:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .rotate-left { transform: rotate(-1.5deg); }
+        .rotate-right { transform: rotate(1.5deg); }
+
+        /* Buttons with Parallax Shine */
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: var(--card-color);
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.1rem;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: 4px 4px 0px 0px var(--border-color);
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-accent { background-color: var(--accent-color); }
+
+        .btn:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px 0px var(--border-color);
+            background-color: var(--text-color);
+            color: var(--card-color);
+        }
+
+        .btn-accent:hover {
+            background-color: var(--text-color);
+        }
+
+        /* Parallax Shine Element */
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: var(--shine-pos, -100%);
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%);
+            transform: skewX(-25deg);
+            pointer-events: none;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding-top: 10rem;
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Highlights Grid */
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Program Section */
+        .program-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .day-card {
+            background-color: var(--accent-color);
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .day-card:nth-child(even) {
+            background-color: var(--card-color);
+        }
+
+        /* Outcomes Section */
+        .outcomes-list {
+            list-style: none;
+        }
+
+        .outcomes-list li {
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 1rem 0;
+            border-bottom: 2px dashed var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .outcomes-list li::before {
+            content: '→';
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            -webkit-text-stroke: 1px black;
+        }
+
+        .outcomes-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* Details & Pricing */
+        .info-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .pricing-card {
+            background-color: var(--accent-color);
+            text-align: center;
+        }
+
+        .price {
+            font-size: 4rem;
+            font-weight: 900;
+            margin: 1rem 0;
+        }
+
+        .details-list {
+            font-size: 1.2rem;
+            font-weight: 600;
+            line-height: 2;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: var(--accent-color);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 5%;
+            text-align: center;
+            border-top: var(--border-width) solid var(--border-color);
+            background-color: var(--card-color);
+        }
+
+        .footer-credit {
+            font-size: 0.75rem;
+            opacity: 0.4;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .info-split { grid-template-columns: 1fr; }
+            .nav-links { display: none; /* Simplified for mobile */ }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="splash-screen">
+        <div class="splash-content">
+            <img src="logo.jpg" alt="Momentum Lab Logo" class="brand-logo" id="splash-logo" onerror="this.style.display='none'; document.getElementById('splash-text').style.display='block';">
+            <span id="splash-text" class="brand-text" style="display:none;">Momentum Lab</span>
+            <h3>Momentum Lab</h3>
+            <p>Loading experience...</p>
+        </div>
+    </div>
+
+    <div class="dot-background" id="dot-bg"></div>
+
+    <nav>
+        <a href="#" class="nav-brand">
+            <img src="logo.jpg" alt="Logo" onerror="this.style.display='none'; document.getElementById('nav-text').style.display='block';">
+            <span id="nav-text" style="display:none; font-weight:900;">Momentum Lab</span>
+        </a>
+        <div class="nav-links">
+            <a href="#program">Program</a>
+            <a href="#outcomes">Outcomes</a>
+            <a href="#details">Details</a>
+            <span class="nimbus-menu-credit">By Nimbus</span>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="card rotate-left" style="display: inline-block; padding: 1rem 2rem; margin-bottom: 1.5rem; background: var(--card-color);">
+                    Turn Your Ideas Into Real Campaigns in 4 Days
+                </h1>
+                <p class="card rotate-right" style="display: inline-block; padding: 1rem 1.5rem; background: var(--accent-color);">
+                    A hands-on creative marketing experience for students.
+                </p>
+                <div class="hero-buttons">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeU82QL-YAsLCGWqaDOqjks-M2ooB9gRenOTtjAl5OYObMEBg/viewform" target="_blank" class="btn btn-accent parallax-btn">Apply Now</a>
+                    <a href="https://instagram.com/momentum_labbs" target="_blank" class="btn parallax-btn">Instagram</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="highlights">
+            <div class="grid-4">
+                <div class="card rotate-right">
+                    <h3>Hands-on Projects</h3>
+                    <p>Ditch the theory. Build actual campaigns that matter.</p>
+                </div>
+                <div class="card rotate-left">
+                    <h3>Team-Based Learning</h3>
+                    <p>Collaborate with driven peers to amplify your ideas.</p>
+                </div>
+                <div class="card rotate-right">
+                    <h3>Portfolio-Ready Work</h3>
+                    <p>Walk away with real assets to show future employers.</p>
+                </div>
+                <div class="card rotate-left">
+                    <h3>Limited Seats</h3>
+                    <p>Intimate cohort size for maximum personal attention.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="program">
+            <h2>The 4-Day Sprint</h2>
+            <div class="program-grid">
+                <div class="card day-card rotate-left">
+                    <h3>Day 1</h3>
+                    <p>Ideation</p>
+                </div>
+                <div class="card day-card rotate-right">
+                    <h3>Day 2</h3>
+                    <p>Strategy</p>
+                </div>
+                <div class="card day-card rotate-left">
+                    <h3>Day 3</h3>
+                    <p>Content Creation</p>
+                </div>
+                <div class="card day-card rotate-right">
+                    <h3>Day 4</h3>
+                    <p>Launch</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="outcomes">
+            <div class="card rotate-right" style="max-width: 800px; margin: 0 auto;">
+                <h2>What You'll Achieve</h2>
+                <ul class="outcomes-list">
+                    <li>Build your first campaign from scratch</li>
+                    <li>Learn real, modern marketing skills</li>
+                    <li>Work effectively in cross-functional teams</li>
+                    <li>Create high-quality portfolio content</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="details">
+            <div class="info-split">
+                <div class="card rotate-left">
+                    <h2>Logistics</h2>
+                    <div class="details-list">
+                        <p><strong>Dates:</strong> 21–24 April</p>
+                        <p><strong>Time:</strong> 1 PM – 5 PM</p>
+                        <p><strong>Location:</strong> Kochi (Me Square)</p>
+                    </div>
+                </div>
+                <div class="card pricing-card rotate-right">
+                    <h2>Investment</h2>
+                    <div class="price">₹1500</div>
+                    <p style="font-weight: 800; text-transform: uppercase;">Limited seats available</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="card final-cta rotate-left">
+                <h2>Ready to Build Something Real?</h2>
+                <br>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeU82QL-YAsLCGWqaDOqjks-M2ooB9gRenOTtjAl5OYObMEBg/viewform" target="_blank" class="btn parallax-btn" style="background: var(--card-color);">Reserve Your Spot</a>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p style="font-weight: 700; margin-bottom: 0.5rem;">Momentum Lab &copy; 2026</p>
+        <div class="footer-credit">Site crafted by Nimbus</div>
+    </footer>
+
+    <script>
+        // Logic and interactions developed by Nimbus
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Splash Screen Fade Out Logic (~1.5 seconds)
+            const splash = document.getElementById('splash-screen');
+            setTimeout(() => {
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 500); // Wait for transition to finish
+            }, 1500);
+
+            // 2. Fluid Scroll & Parallax Logic (Shine + Dot Matrix)
+            const dotBg = document.getElementById('dot-bg');
+            const buttons = document.querySelectorAll('.parallax-btn');
+
+            window.addEventListener('scroll', () => {
+                const scrollY = window.scrollY;
+
+                // Parallax Dot Matrix Background
+                // Moves slightly slower than scroll for depth effect
+                dotBg.style.transform = `translateY(${scrollY * 0.15}px)`;
+
+                // Parallax Button Shine Effect
+                buttons.forEach(btn => {
+                    const rect = btn.getBoundingClientRect();
+                    // Check if button is in viewport
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        // Calculate percentage of element's scroll through the viewport
+                        const scrollPercent = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                        
+                        // Map the scroll percentage to a left position (-100% to 200%) to slide the gradient across
+                        const shinePosition = (scrollPercent * 300) - 100;
+                        btn.style.setProperty('--shine-pos', `${shinePosition}%`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+    
+  </body>
+  
+</html>
