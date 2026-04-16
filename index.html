@@ -78,11 +78,14 @@
         }
 
         .brand-logo-splash {
-            max-width: 150px;
-            margin-bottom: 1rem;
+            width: 180px; /* Increased size for splash screen */
+            height: auto;
+            margin-bottom: 1.5rem;
             border: var(--border-width) solid var(--border-color);
             border-radius: 12px;
             box-shadow: 4px 4px 0px 0px var(--border-color);
+            padding: 8px;
+            background: #fff;
         }
 
         /* Navigation */
@@ -108,16 +111,16 @@
             color: var(--text-color);
         }
 
-        /* FIXED LOGO STYLING - Allows natural wide aspect ratio */
+        /* FIXED LOGO STYLING - Prioritizes width for readability */
         .nav-brand img {
-            height: 50px; 
-            width: auto; /* Scales automatically */
-            max-width: 250px; /* Prevents it from getting too massive */
+            width: 160px; /* Focus on width so internal text is readable */
+            height: auto; /* Let height adjust naturally */
+            max-height: 70px; /* Safety cap */
             border: var(--border-width) solid var(--border-color);
             border-radius: 8px;
-            object-fit: contain; /* Keeps the whole image visible */
+            object-fit: contain; 
             background: #fff;
-            padding: 4px;
+            padding: 6px;
         }
 
         .nav-brand span {
@@ -370,15 +373,16 @@
             .nav-links { display: none; } /* Hide desktop links */
             .mobile-toggle { display: block; } /* Show hamburger */
             
-            .nav-brand span { display: none; } /* Hide text next to logo to save space on mobile */
+            .nav-brand span { display: none; } /* Hide text next to logo */
             
             .hero { padding-top: 8rem; }
             
-            /* Allow the logo to take up decent space on mobile while keeping aspect ratio */
+            /* INCREASED MOBILE LOGO SIZE */
             .nav-brand img { 
-                height: 45px; 
-                width: auto; 
-                max-width: 200px;
+                width: 140px; /* Big enough to read the text inside the image */
+                height: auto; 
+                max-height: none; /* Removed restrictive height cap */
+                padding: 4px;
             }
         }
     </style>
@@ -529,7 +533,6 @@
 
             mobileToggle.addEventListener('click', () => {
                 mobileMenu.classList.toggle('active');
-                // Change icon slightly when open
                 if(mobileMenu.classList.contains('active')) {
                     mobileToggle.innerHTML = '✕';
                 } else {
