@@ -3,344 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Momentum Labs</title>
+    <title>Momentum Labs | 4-Day Marketing Sprint</title>
     <style>
-        /* Styles crafted by Nimbus */
-        
         :root {
             --bg-color: #EAE6F8;
             --card-color: #FFFFFF;
             --accent-color: #B8A9FF;
+            --secondary-accent: #FFD966;
             --border-color: #000000;
             --text-color: #000000;
             --border-width: 3px;
-            --shadow-offset: 6px;
-            --shadow: var(--shadow-offset) var(--shadow-offset) 0px 0px var(--border-color);
-            --shadow-hover: 8px 8px 0px 0px var(--border-color);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --shadow: 6px 6px 0px 0px var(--border-color);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
-            line-height: 1.6;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
         /* Dot Matrix Background */
         .dot-background {
-            position: fixed;
-            top: -10%;
-            left: -10%;
-            width: 120%;
-            height: 120%;
-            background-image: radial-gradient(rgba(0, 0, 0, 0.06) 2px, transparent 2px);
-            background-size: 30px 30px;
-            z-index: -1;
-            pointer-events: none;
-            will-change: transform;
-        }
-
-        /* Typography */
-        h1, h2, h3 {
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-        }
-
-        h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); margin-bottom: 1rem; }
-        h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1.5rem; }
-        h3 { font-size: 1.5rem; margin-bottom: 0.5rem; }
-
-        /* Splash Screen (Logo Kept Here) */
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--bg-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            transition: opacity 0.5s ease;
-        }
-
-        .brand-logo-splash {
-            width: 180px;
-            height: auto;
-            margin-bottom: 1.5rem;
-            border: var(--border-width) solid var(--border-color);
-            border-radius: 12px;
-            box-shadow: 4px 4px 0px 0px var(--border-color);
-            padding: 8px;
-            background: #fff;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: radial-gradient(rgba(0,0,0,0.08) 2px, transparent 2px);
+            background-size: 30px 30px; z-index: -1;
         }
 
         /* Navigation */
         nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(234, 230, 248, 0.95);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-            border-bottom: var(--border-width) solid var(--border-color);
+            position: fixed; top: 0; width: 100%; padding: 1rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            background: var(--bg-color); border-bottom: var(--border-width) solid var(--border-color);
+            z-index: 1000;
         }
 
-        /* Text Logo Styling */
         .nav-brand-text {
-            font-size: 1.8rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            text-decoration: none;
-            color: var(--text-color);
-            letter-spacing: -1px;
-            transition: var(--transition);
-            display: inline-block;
-            position: relative;
+            font-size: 1.5rem; font-weight: 900; text-transform: uppercase;
+            text-decoration: none; color: var(--text-color);
         }
 
-        .nav-brand-text:hover {
-            transform: skew(-5deg);
-            color: var(--accent-color);
-            text-shadow: 2px 2px 0px var(--border-color);
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 700;
-            font-size: 1.1rem;
-            transition: var(--transition);
-        }
-
-        .nav-links a:hover {
-            color: var(--accent-color);
-            text-shadow: 1px 1px 0px #000;
-        }
-
-        /* Hamburger Styles */
         .mobile-toggle {
-            display: none;
-            background: var(--card-color);
-            border: var(--border-width) solid var(--border-color);
-            border-radius: 6px;
-            padding: 0.4rem 0.8rem;
-            font-size: 1.5rem;
-            font-weight: 900;
-            cursor: pointer;
-            box-shadow: 3px 3px 0px 0px var(--border-color);
-            transition: var(--transition);
+            background: var(--card-color); border: var(--border-width) solid var(--border-color);
+            padding: 0.5rem 0.8rem; font-weight: 900; cursor: pointer;
+            box-shadow: 3px 3px 0px var(--border-color); z-index: 1100;
         }
 
-        .mobile-toggle:active {
-            transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0px 0px var(--border-color);
-        }
-
-        /* Mobile Dropdown */
+        /* Animated Mobile Menu */
         .mobile-menu {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            background: var(--bg-color);
-            border-bottom: var(--border-width) solid var(--border-color);
-            padding: 1.5rem 5%;
-            flex-direction: column;
-            gap: 1.5rem;
-            box-shadow: 0px 10px 0px 0px rgba(0,0,0,1);
+            position: fixed; top: 0; right: -100%; width: 80%; height: 100vh;
+            background: var(--accent-color); border-left: var(--border-width) solid var(--border-color);
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 10%; gap: 2rem; z-index: 1050;
+            transition: right 0.5s cubic-bezier(0.77, 0, 0.175, 1);
         }
 
-        .mobile-menu.active {
-            display: flex;
-        }
+        .mobile-menu.active { right: 0; box-shadow: -10px 0px 0px var(--border-color); }
 
         .mobile-menu a {
-            text-decoration: none;
-            color: var(--text-color);
-            font-weight: 900;
-            font-size: 1.5rem;
-            text-transform: uppercase;
+            font-size: 2.5rem; font-weight: 900; text-transform: uppercase;
+            text-decoration: none; color: white; -webkit-text-stroke: 1.5px black;
             transition: var(--transition);
         }
 
-        /* General UI */
+        .mobile-menu a:hover { transform: translateX(20px); -webkit-text-stroke: 0px; color: black; }
+
+        /* Hero & Layout */
         .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; }
-        section { padding: 6rem 0; }
+        section { padding: 5rem 0; }
 
+        .hero { padding-top: 10rem; min-height: 90vh; }
+
+        .hero-btns {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 2rem;
+        }
+
+        /* Brutalist Cards */
         .card {
-            background-color: var(--card-color);
-            border: var(--border-width) solid var(--border-color);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+            background: var(--card-color); border: var(--border-width) solid var(--border-color);
+            border-radius: 12px; padding: 2rem; box-shadow: var(--shadow);
+            transition: var(--transition); height: 100%;
         }
 
-        .rotate-left { transform: rotate(-1deg); }
-        .rotate-right { transform: rotate(1deg); }
+        .card:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0px var(--border-color); }
 
+        h1 { font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; line-height: 0.9; text-transform: uppercase; }
+        
         .btn {
-            display: inline-block;
-            padding: 1.2rem 2.5rem;
-            background-color: var(--card-color);
-            color: var(--text-color);
-            text-decoration: none;
-            font-weight: 800;
-            border: var(--border-width) solid var(--border-color);
-            border-radius: 8px;
-            box-shadow: 4px 4px 0px 0px var(--border-color);
-            transition: var(--transition);
-            text-transform: uppercase;
+            padding: 1rem; border: var(--border-width) solid var(--border-color);
+            text-decoration: none; font-weight: 900; text-transform: uppercase;
+            text-align: center; border-radius: 8px; box-shadow: 4px 4px 0px var(--border-color);
+            transition: var(--transition); font-size: 0.9rem;
         }
 
-        .btn-accent { background-color: var(--accent-color); }
+        .btn-main { background: var(--accent-color); }
+        .btn-alt { background: var(--card-color); }
+        .btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0px var(--border-color); }
 
-        .btn:hover {
-            transform: translate(-2px, -2px);
-            box-shadow: 6px 6px 0px 0px var(--border-color);
+        /* Detailed Sections */
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        
+        .pill {
+            display: inline-block; padding: 0.2rem 1rem; background: var(--secondary-accent);
+            border: 2px solid black; border-radius: 50px; font-weight: 800; font-size: 0.8rem;
+            margin-bottom: 1rem;
         }
 
-        /* Mobile Breakpoints */
-        @media (max-width: 768px) {
+        .faq-item {
+            border-bottom: var(--border-width) solid var(--border-color);
+            padding: 1.5rem 0; cursor: pointer;
+        }
+
+        /* Splash */
+        #splash {
+            position: fixed; inset: 0; background: var(--bg-color); z-index: 2000;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        @media (min-width: 768px) {
+            .hero-btns { width: 500px; grid-template-columns: 1.5fr 1fr; }
+            .mobile-toggle, .mobile-menu { display: none; }
+            .nav-links { display: flex; gap: 2rem; }
+            .nav-links a { text-decoration: none; color: black; font-weight: 800; text-transform: uppercase; }
+        }
+
+        @media (max-width: 767px) {
             .nav-links { display: none; }
-            .mobile-toggle { display: block; }
-            .hero { padding-top: 8rem; }
-            .nav-brand-text { font-size: 1.4rem; }
         }
     </style>
 </head>
 <body>
 
-    <div id="splash-screen">
+    <div id="splash">
         <div style="text-align: center;">
-            <img src="logo.jpg" alt="Momentum Labs Logo" class="brand-logo-splash">
-            <h2 style="margin-top: 1rem;">Momentum Labs</h2>
-            <p style="font-weight: 700;">Loading experience...</p>
+            <img src="logo.jpg" style="width: 150px; border: 3px solid black; border-radius: 10px;" alt="Logo">
+            <h2 style="margin-top: 1rem; font-weight: 900;">MOMENTUM LABS</h2>
         </div>
     </div>
 
-    <div class="dot-background" id="dot-bg"></div>
+    <div class="dot-background"></div>
 
     <nav>
         <a href="#" class="nav-brand-text">Momentum Labs</a>
-        
         <div class="nav-links">
-            <a href="#program">Program</a>
-            <a href="#outcomes">Outcomes</a>
-            <a href="#details">Details</a>
+            <a href="#about">About</a>
+            <a href="#sprint">The Sprint</a>
+            <a href="#faq">FAQ</a>
         </div>
-
-        <button class="mobile-toggle" id="mobile-toggle">☰</button>
-
-        <div class="mobile-menu" id="mobile-menu">
-            <a href="#program" class="mobile-link">Program</a>
-            <a href="#outcomes" class="mobile-link">Outcomes</a>
-            <a href="#details" class="mobile-link">Details</a>
-        </div>
+        <button class="mobile-toggle" id="menuBtn">MENU</button>
     </nav>
 
-    <div class="container">
-        
-        <section class="hero">
-            <div>
-                <h1 class="card rotate-left">Turn Your Ideas Into Real Campaigns in 4 Days</h1>
-                <p class="card rotate-right" style="margin-top: 1.5rem; background: var(--accent-color);">
-                    A hands-on creative marketing experience for students.
-                </p>
-                <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeU82QL-YAsLCGWqaDOqjks-M2ooB9gRenOTtjAl5OYObMEBg/viewform" target="_blank" class="btn btn-accent">Apply Now</a>
-                    <a href="https://instagram.com/momentum_labbs" target="_blank" class="btn">Instagram</a>
-                </div>
-            </div>
-        </section>
-
-        <section id="program">
-            <h2 style="text-align: center; margin-bottom: 3rem;">The Sprint</h2>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem;">
-                <div class="card rotate-left"><h3>Day 1</h3><p>Ideation</p></div>
-                <div class="card rotate-right"><h3>Day 2</h3><p>Strategy</p></div>
-                <div class="card rotate-left"><h3>Day 3</h3><p>Production</p></div>
-                <div class="card rotate-right"><h3>Day 4</h3><p>Launch</p></div>
-            </div>
-        </section>
-
-        <section id="outcomes">
-            <div class="card rotate-right">
-                <h2>Outcomes</h2>
-                <p style="font-weight: 700; margin-bottom: 1rem;">→ Professional Portfolio Project</p>
-                <p style="font-weight: 700; margin-bottom: 1rem;">→ Real-world Marketing Strategy</p>
-                <p style="font-weight: 700;">→ Industry Networking</p>
-            </div>
-        </section>
-
-        <section id="details">
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-                <div class="card rotate-left">
-                    <h2>Details</h2>
-                    <p><strong>Dates:</strong> 21–24 April</p>
-                    <p><strong>Location:</strong> Kochi (Me Square)</p>
-                </div>
-                <div class="card rotate-right" style="background: var(--accent-color); text-align: center;">
-                    <h2>Fee</h2>
-                    <p style="font-size: 3rem; font-weight: 900;">₹1500</p>
-                </div>
-            </div>
-        </section>
-
+    <div class="mobile-menu" id="sideMenu">
+        <a href="#about">About</a>
+        <a href="#sprint">Sprint</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://instagram.com/momentum_labbs" style="font-size: 1.5rem;">Instagram ↗</a>
     </div>
 
-    <footer style="padding: 4rem 5%; text-align: center; border-top: var(--border-width) solid var(--border-color);">
-        <p style="font-weight: 900;">MOMENTUM LABS &copy; 2026</p>
+    <div class="container">
+        <section class="hero">
+            <span class="pill">LIMITED SEATS: 20 CREATORS ONLY</span>
+            <h1>BUILD A BRAND <br> FROM SCRATCH <br> <span style="color: var(--accent-color); -webkit-text-stroke: 2px black;">IN 4 DAYS.</span></h1>
+            
+            <div class="hero-btns">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSeU82QL-YAsLCGWqaDOqjks-M2ooB9gRenOTtjAl5OYObMEBg/viewform" class="btn btn-main">Apply Now</a>
+                <a href="https://instagram.com/momentum_labbs" class="btn btn-alt">Instagram</a>
+            </div>
+        </section>
+
+        <section id="about">
+            <h2 style="margin-bottom: 2rem; text-transform: uppercase;">Why Join Us?</h2>
+            <div class="grid-3">
+                <div class="card" style="transform: rotate(-1deg);">
+                    <div class="pill">PILLAR 01</div>
+                    <h3>Radical Execution</h3>
+                    <p>Stop overthinking. We use rapid prototyping to turn vague ideas into campaign assets in hours, not months.</p>
+                </div>
+                <div class="card" style="transform: rotate(1deg);">
+                    <div class="pill">PILLAR 02</div>
+                    <h3>Network Density</h3>
+                    <p>Work alongside designers, strategists, and copywriters. Your network is your net worth.</p>
+                </div>
+                <div class="card">
+                    <div class="pill">PILLAR 03</div>
+                    <h3>Real Stakes</h3>
+                    <p>This isn't a classroom. Your campaigns will be reviewed by industry veterans in the Kochi creative scene.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="sprint">
+            <div class="card" style="background: black; color: white;">
+                <h2 style="margin-bottom: 2rem;">THE 96-HOUR SPRINT</h2>
+                <div class="grid-3">
+                    <div style="border-left: 2px solid var(--accent-color); padding-left: 1rem;">
+                        <h4 style="color: var(--accent-color);">DAY 1</h4>
+                        <p><strong>The Spark:</strong> Research, target personas, and the "Big Idea" workshop.</p>
+                    </div>
+                    <div style="border-left: 2px solid var(--accent-color); padding-left: 1rem;">
+                        <h4 style="color: var(--accent-color);">DAY 2</h4>
+                        <p><strong>The Blueprint:</strong> Visual identity, tone of voice, and platform strategy.</p>
+                    </div>
+                    <div style="border-left: 2px solid var(--accent-color); padding-left: 1rem;">
+                        <h4 style="color: var(--accent-color);">DAY 3</h4>
+                        <p><strong>The Build:</strong> Content production, ad mockups, and video editing.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq">
+            <h2 style="margin-bottom: 2rem;">Common Questions</h2>
+            <div class="card">
+                <div class="faq-item">
+                    <strong>Do I need prior marketing experience?</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">No. We value curiosity and grit over a CV. We teach you the tools on the fly.</p>
+                </div>
+                <div class="faq-item">
+                    <strong>What do I need to bring?</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">A laptop, a smartphone, and enough caffeine to last 4 days.</p>
+                </div>
+                <div class="faq-item" style="border: none;">
+                    <strong>Is there a certification?</strong>
+                    <p style="font-size: 0.9rem; margin-top: 0.5rem;">Better. You leave with a live portfolio link and a network of peers.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer style="padding: 3rem; text-align: center; border-top: 3px solid black; background: white;">
+        <p style="font-weight: 900;">MOMENTUM LABS | KOCHI 2026</p>
+        <p style="font-size: 0.7rem; opacity: 0.5; margin-top: 1rem;">Built by Nimbus Systems</p>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Splash Transition
-            const splash = document.getElementById('splash-screen');
+        // Splash Screen
+        window.addEventListener('load', () => {
             setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.style.transition = 'opacity 0.5s ease';
                 splash.style.opacity = '0';
                 setTimeout(() => splash.style.display = 'none', 500);
-            }, 1500);
+            }, 1200);
+        });
 
-            // Hamburger Toggle
-            const toggle = document.getElementById('mobile-toggle');
-            const menu = document.getElementById('mobile-menu');
-            const links = document.querySelectorAll('.mobile-link');
+        // Animated Menu Logic
+        const menuBtn = document.getElementById('menuBtn');
+        const sideMenu = document.getElementById('sideMenu');
+        const menuLinks = document.querySelectorAll('.mobile-menu a');
 
-            toggle.addEventListener('click', () => {
-                menu.classList.toggle('active');
-                toggle.innerHTML = menu.classList.contains('active') ? '✕' : '☰';
+        menuBtn.addEventListener('click', () => {
+            sideMenu.classList.toggle('active');
+            menuBtn.innerText = sideMenu.classList.contains('active') ? 'CLOSE' : 'MENU';
+            
+            // Subtle body lock
+            document.body.style.overflow = sideMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close menu on link click
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sideMenu.classList.remove('active');
+                menuBtn.innerText = 'MENU';
+                document.body.style.overflow = 'auto';
             });
-
-            links.forEach(l => l.addEventListener('click', () => {
-                menu.classList.remove('active');
-                toggle.innerHTML = '☰';
-            }));
         });
     </script>
 </body>
