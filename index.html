@@ -85,7 +85,7 @@
             box-shadow: 4px 4px 0px 0px var(--border-color);
         }
 
-        /* Navigation - Optimized Logo Size */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
@@ -108,13 +108,16 @@
             color: var(--text-color);
         }
 
+        /* FIXED LOGO STYLING - Allows natural wide aspect ratio */
         .nav-brand img {
-            height: 60px; /* Increased size from 40px */
-            width: 60px;
+            height: 50px; 
+            width: auto; /* Scales automatically */
+            max-width: 250px; /* Prevents it from getting too massive */
             border: var(--border-width) solid var(--border-color);
             border-radius: 8px;
-            object-fit: cover;
+            object-fit: contain; /* Keeps the whole image visible */
             background: #fff;
+            padding: 4px;
         }
 
         .nav-brand span {
@@ -150,6 +153,60 @@
             color: #fff;
             padding: 4px 8px;
             border-radius: 4px;
+        }
+
+        /* Mobile Menu Button (Hamburger) */
+        .mobile-toggle {
+            display: none;
+            background: var(--card-color);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            font-size: 1.5rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 3px 3px 0px 0px var(--border-color);
+            transition: var(--transition);
+        }
+
+        .mobile-toggle:active {
+            transform: translate(2px, 2px);
+            box-shadow: 1px 1px 0px 0px var(--border-color);
+        }
+
+        /* Mobile Dropdown Menu */
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: var(--bg-color);
+            border-bottom: var(--border-width) solid var(--border-color);
+            padding: 1.5rem 5%;
+            flex-direction: column;
+            gap: 1rem;
+            box-shadow: 0px 10px 0px 0px rgba(0,0,0,1);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 800;
+            font-size: 1.2rem;
+            padding: 0.5rem;
+            border: var(--border-width) solid transparent;
+            transition: var(--transition);
+        }
+
+        .mobile-menu a:hover {
+            background: var(--card-color);
+            border-color: var(--border-color);
+            transform: translateX(5px);
         }
 
         /* Container & Layout */
@@ -307,11 +364,22 @@
             margin-top: 1rem;
         }
 
+        /* Mobile Breakpoints */
         @media (max-width: 768px) {
             .info-split { grid-template-columns: 1fr; }
-            .nav-links { display: none; }
+            .nav-links { display: none; } /* Hide desktop links */
+            .mobile-toggle { display: block; } /* Show hamburger */
+            
+            .nav-brand span { display: none; } /* Hide text next to logo to save space on mobile */
+            
             .hero { padding-top: 8rem; }
-            .nav-brand img { height: 50px; width: 50px; }
+            
+            /* Allow the logo to take up decent space on mobile while keeping aspect ratio */
+            .nav-brand img { 
+                height: 45px; 
+                width: auto; 
+                max-width: 200px;
+            }
         }
     </style>
 </head>
@@ -333,11 +401,21 @@
             <img src="logo.jpg" alt="Momentum Labs" onerror="this.style.display='none'; document.getElementById('nav-fallback').style.display='block';">
             <span id="nav-fallback">Momentum Labs</span>
         </a>
+        
         <div class="nav-links">
             <a href="#program">Program</a>
             <a href="#outcomes">Outcomes</a>
             <a href="#details">Details</a>
             <span class="nimbus-menu-credit">System by Nimbus</span>
+        </div>
+
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Menu">☰</button>
+
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#program" class="mobile-link">Program</a>
+            <a href="#outcomes" class="mobile-link">Outcomes</a>
+            <a href="#details" class="mobile-link">Details</a>
+            <span class="nimbus-menu-credit" style="align-self: flex-start;">System by Nimbus</span>
         </div>
     </nav>
 
@@ -443,6 +521,29 @@
                 splash.style.opacity = '0';
                 setTimeout(() => splash.style.display = 'none', 500);
             }, 1500);
+
+            // Mobile Menu Toggle
+            const mobileToggle = document.getElementById('mobile-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            mobileToggle.addEventListener('click', () => {
+                mobileMenu.classList.toggle('active');
+                // Change icon slightly when open
+                if(mobileMenu.classList.contains('active')) {
+                    mobileToggle.innerHTML = '✕';
+                } else {
+                    mobileToggle.innerHTML = '☰';
+                }
+            });
+
+            // Close mobile menu when a link is clicked
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    mobileToggle.innerHTML = '☰';
+                });
+            });
 
             // Parallax Effects
             const dotBg = document.getElementById('dot-bg');
